@@ -68,6 +68,6 @@ C:\Users\zehong.zhao\Documents\WebApplication\SPAJumpStart\bin\ko\System.Spatial
 C:\Users\zehong.zhao\Documents\WebApplication\SPAJumpStart\bin\ru\System.Spatial.resources.dll
 C:\Users\zehong.zhao\Documents\WebApplication\SPAJumpStart\bin\zh-Hans\System.Spatial.resources.dll
 C:\Users\zehong.zhao\Documents\WebApplication\SPAJumpStart\bin\zh-Hant\System.Spatial.resources.dll
-C:\Users\zehong.zhao\Documents\WebApplication\SPAJumpStart\obj\Debug\SPAJumpStart.csprojResolveAssemblyReference.cache
 C:\Users\zehong.zhao\Documents\WebApplication\SPAJumpStart\obj\Debug\CCJS-Scratch.dll
 C:\Users\zehong.zhao\Documents\WebApplication\SPAJumpStart\obj\Debug\CCJS-Scratch.pdb
+C:\Users\zehong.zhao\Documents\WebApplication\SPAJumpStart\obj\Debug\SPAJumpStart.csprojResolveAssemblyReference.cache
