@@ -21,7 +21,7 @@ define(function (require) {
     // Otherwise you can pass paths for modules, views, partials
     // Defaults to viewmodels/views/views. 
     viewLocator.useConvention();
-    app.setRoot('viewmodels/shell');
+    app.setRoot('viewmodels/shell', 'entrance');
 
     // override bad route behavior to write to 
     // console log and show error toast

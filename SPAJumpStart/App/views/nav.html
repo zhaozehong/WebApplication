@@ -2,7 +2,7 @@
   <div class="navbar-inner">
     <a class="brand" href="/">
       <span class="title">Code Camper</span>
-      <span class="jump-start-title">[JumpStart] 00-Durandal - 1 Page</span>
+      <span class="jump-start-title">[JumpStart] 01-Durandal - Nav</span>
     </a>
     <div data-bind="css: {active : router.isNavgating}"
       class="pull-right loader">
@@ -11,7 +11,7 @@
   </div>
   <div class="navbar-inner navbar-secondary">
     <div class="btn-group"
-      data-bind="foreach: router.visibleRoutes">
+         data-bind="foreach: router.visibleRoutes">
       <a data-bind="attr: { href: hash },
                     css: { active: isActive },
                     html: caption"
