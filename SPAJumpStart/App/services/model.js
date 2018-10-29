@@ -1,60 +1,39 @@
-﻿define(function () {
-  var imageSettings = {
-    imageBasePath: '../content/images/photos/',
-    unknownPersonImageSource: 'unknown_person.jpg'
+﻿define(['config'], function (config) {
+  var imageSettings = config.imageSettings;
+  var makeImageName = function (source) {
+    return imageSettings.imageBasePath + (source || imageSettings.unknownPersonImageSource);
   };
-  var SpeakerPartial = function (dto) {
-    // Map to observables and add computeds
-    return addSpeakerPartialComputeds(mapToObservable(dto));
-  };
-  var SessionPartial = function (dto) {
-    // Map to observables and add computeds
-    return addSessionPartialComputeds(mapToObservable(dto));
-  };
+
   var model = {
-    SpeakerPartial: SpeakerPartial,
-    SessionPartial: SessionPartial
+    configureMetadataStore: configureMetadataStore,
   };
   return model;
 
   //#region Internal Methods
-  function mapToObservable(dto) {
-    var mapped = {};
-    for (prop in dto) {
-      if (dto.hasOwnProperty(prop)) {
-        mapped[prop] = ko.observable(dto[prop]);
-      }
-    }
-    return mapped;
-  };
-  function addSpeakerPartialComputeds(entity) {
-    entity.fullName = ko.computed(function () {
-      return entity.firstName() + ' ' + entity.lastName;
-    });
-    entity.imageName = ko.computed(function () {
-      return makeImageName(entity.imageSource());
-    });
-    return entity;
-  };
-  function addSessionPartialComputeds(entity) {
-    entity.speakerImageName = ko.computed(function () {
-      return makeImageName(entity.speakerImageSource());
-    });
-    entity.speakerFullName = ko.computed(function () {
-      return entity.speakerFirstName() + ' ' + entity.speakerLastName();
-    });
-    entity.timeSlotName = ko.computed(function () {
-      return entity.timeSlotStart() ? moment.utc(entity.timeSlotStart()).format('ddd hh:mm a') : '';
-    });
-    entity.tagsFormatted = ko.computed(function () {
-      var text = entity.tags();
+  function configureMetadataStore(metadataStore) {
+    metadataStore.registerEntityTypeCtor('Session', null, sessionInitializer);
+    metadataStore.registerEntityTypeCtor('Person', null, personInitializer);
+    metadataStore.registerEntityTypeCtor('TimeSlot', null, timeSlotInitializer);
+  }
+
+  function sessionInitializer(session) {
+    session.tagsFormatted = ko.computed(function () {
+      var text = session.tags();
       return text ? text.replace(/\|/g) : text;
     });
-    return entity;
   };
-  function makeImageName(source) {
-    return imageSettings.imageBasePath +
-      (source || imageSettings.unknownPersonImageSource);
-  }
+  function personInitializer(person) {
+    person.fullName = ko.computed(function () {
+      return person.firstName() + ' ' + person.lastName();
+    });
+    person.imageName = ko.computed(function () {
+      return makeImageName(person.imageSource());
+    });
+  };
+  function timeSlotInitializer(timeSlot) {
+    timeSlot.name = ko.computed(function () {
+      return timeSlot.start() ? moment.utc(timeSlot.start()).format('ddd hh:mm a') : '';
+    });
+  };
   //#endregion
 });

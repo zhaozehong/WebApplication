@@ -9,51 +9,49 @@ using Newtonsoft.Json.Linq;
 
 namespace CodeCamper.Controllers
 {
-    [BreezeController]
-    public class BreezeController : ApiController
+  [BreezeController]
+  public class BreezeController : ApiController
+  {
+    readonly EFContextProvider<CodeCamperDbContext> _contextProvider = new EFContextProvider<CodeCamperDbContext>();
+
+    [HttpGet]
+    public string Metadata()
     {
-        readonly EFContextProvider<CodeCamperDbContext>  _contextProvider =
-            new EFContextProvider<CodeCamperDbContext>();
+      return _contextProvider.Metadata();
+    }
 
-        [HttpGet]
-        public string Metadata()
-        {
-            return _contextProvider.Metadata();
-        }
+    [HttpPost]
+    public SaveResult SaveChanges(JObject saveBundle)
+    {
+      return _contextProvider.SaveChanges(saveBundle);
+    }
 
-        [HttpPost]
-        public SaveResult SaveChanges(JObject saveBundle)
-        {
-            return _contextProvider.SaveChanges(saveBundle);
-        }
+    [HttpGet]
+    public object Lookups()
+    {
+      var rooms = _contextProvider.Context.Rooms;
+      var tracks = _contextProvider.Context.Tracks;
+      var timeslots = _contextProvider.Context.TimeSlots;
+      return new { rooms, tracks, timeslots };
+    }
 
-        [HttpGet]
-        public object Lookups()
-        {
-            var rooms =  _contextProvider.Context.Rooms;
-            var tracks =  _contextProvider.Context.Tracks;
-            var timeslots =  _contextProvider.Context.TimeSlots;
-            return new {rooms, tracks, timeslots};
-        }
+    [HttpGet]
+    public IQueryable<Session> Sessions()
+    {
+      return _contextProvider.Context.Sessions;
+    }
 
-        [HttpGet]
-        public IQueryable<Session> Sessions()
-        {
-            return _contextProvider.Context.Sessions;
-        }
+    [HttpGet]
+    public IQueryable<Person> Persons()
+    {
+      return _contextProvider.Context.Persons;
+    }
 
-        [HttpGet]
-        public IQueryable<Person> Persons()
-        {
-            return _contextProvider.Context.Persons;
-        }
+    [HttpGet]
+    public IQueryable<Person> Speakers()
+    {
+      return _contextProvider.Context.Persons.Where(p => p.SpeakerSessions.Any());
+    }
 
-        [HttpGet]
-        public IQueryable<Person> Speakers()
-        {
-            return _contextProvider.Context.Persons
-                .Where(p => p.SpeakerSessions.Any());
-        }
-
-   }
+  }
 }

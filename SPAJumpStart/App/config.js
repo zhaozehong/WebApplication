@@ -7,9 +7,9 @@
     unknownPersonImageSource: 'unknown_person.jpg'
   };
 
-  //var remoteServiceName = 'breeze/Breeze';
+  var remoteServiceName = 'api/breeze';
   //var appTitle = 'CCJS';
-  var routers = [{
+  var routes = [{
     url: 'sessions',
     moduleId: 'viewmodels/sessions',
     name: 'Sessions',
@@ -42,10 +42,10 @@
 
   return {
     imageSettings: imageSettings,
-    routers: routers,
+    routes: routes,
     startModule: startModule,
+    remoteServiceName: remoteServiceName
     //appTitle: appTitle,
     //debugEnabled: ko.observable(true),
-    //remoteServiceName: remoteServiceName
   };
 });

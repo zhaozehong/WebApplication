@@ -1,4 +1,4 @@
-﻿define(['services/dataservice'], function (dataservice) {
+﻿define(['services/datacontext'], function (datacontext) {
   var sessions = ko.observableArray();
   var initialized = false;
   var vm = {
@@ -15,6 +15,6 @@
     return refresh();
   }
   function refresh() {
-    return dataservice.getSessionsPartials(sessions);
+    return datacontext.getSessions(sessions);
   }
 });

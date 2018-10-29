@@ -1,4 +1,4 @@
-﻿define(['services/dataservice'], function (dataservice) {
+﻿define(['services/datacontext'], function (datacontext) {
   var speakers = ko.observableArray();
   var initialized = false;
   var vm = {
@@ -15,6 +15,6 @@
     return refresh();
   }
   function refresh() {
-    return dataservice.getSpeakersPartials(speakers);
+    return datacontext.getSpeakers(speakers);
   }
 });
