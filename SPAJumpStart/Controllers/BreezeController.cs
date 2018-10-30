@@ -29,6 +29,7 @@ namespace CodeCamper.Controllers
     [HttpGet]
     public object Lookups()
     {
+      // get Rooms, Tracks & TimeSlots info via ajax
       var rooms = _contextProvider.Context.Rooms;
       var tracks = _contextProvider.Context.Tracks;
       var timeslots = _contextProvider.Context.TimeSlots;
@@ -38,18 +39,21 @@ namespace CodeCamper.Controllers
     [HttpGet]
     public IQueryable<Session> Sessions()
     {
+      // get Sessions info via ajax
       return _contextProvider.Context.Sessions;
     }
 
     [HttpGet]
     public IQueryable<Person> Persons()
     {
+      // get Persons info via ajax
       return _contextProvider.Context.Persons;
     }
 
     [HttpGet]
     public IQueryable<Person> Speakers()
     {
+      // get Speakers info based on Persons info
       return _contextProvider.Context.Persons.Where(p => p.SpeakerSessions.Any());
     }
 

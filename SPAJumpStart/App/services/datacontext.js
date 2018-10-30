@@ -4,7 +4,7 @@
         manager = configureBreezeManager();
 
     var getSpeakers = function (speakersObservable) {
-      var query = EntityQuery.from('Speakers').orderBy('firstName, lastName');
+      var query = EntityQuery.from('Speakers').orderBy('firstName, lastName'); // will cause 'Speakers'(case-insensitive) action of Breeze Controller(manager knows it)
       return manager.executeQuery(query)
       .then(querySucceeded)
       .fail(queryFailed);
@@ -18,7 +18,7 @@
       }
     };
     var getSessions = function (sessionsObservable) {
-      var query = EntityQuery.from('Sessions').orderBy('timeSlotId, level, speaker.firstName');
+      var query = EntityQuery.from('Sessions').orderBy('timeSlotId, level, speaker.firstName'); // BreezeController.Sessions()
       return manager.executeQuery(query)
       .then(querySucceeded)
       .fail(queryFailed);
@@ -53,7 +53,7 @@
       return mgr;
     }
     function getLookups() {
-      return EntityQuery.from('Lookups')
+      return EntityQuery.from('Lookups') // cause BreezeController.Lookups()
       .using(manager).execute()
       .fail(queryFailed);
     }
