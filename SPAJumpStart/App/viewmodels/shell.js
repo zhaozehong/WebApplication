@@ -11,14 +11,14 @@
           .then(boot)
           .fail(failedInitialization);
       }
-      function failedInitialization(error) {
-        var msg = 'App initialization failed: ' + error.message;
-        logger.logError(msg, error, system.getModuleId(shell), true);
-      }
       function boot() {
         logger.log('CodeCamper JumpStart Loaded!', null, system.getModuleId(shell), true);
         router.map(config.routes);
-        return router.activate(config.startModule);
+        return router.activate(config.startModule); // ZEHONG: must call router.activate action here, or navigation will not work.
+      }
+      function failedInitialization(error) {
+        var msg = 'App initialization failed: ' + error.message;
+        logger.logError(msg, error, system.getModuleId(shell), true);
       }
     }
 );
