@@ -11,6 +11,9 @@
   <section class="view-list" data-bind="foreach: sessions">
     <article class="article-left-content">
       <div class="session-brief" title="Go to session details">
+        <!--Zehong: all related datas, [such as speaker(), timeSlot(), track(), room()], must be GET before displaying sessions view
+          they can be fetched via datacontext.getXXX()-->
+        <!--Zehong: ACTION name must be started with lowercase letter-->
         <img data-bind="attr: { src: speaker().imageName }" class="img-polaroid" />
         <span data-bind="text: timeSlot().name"></span> at <span data-bind="  text: room().name"></span>
         <small data-bind="text: level" class="right"></small>
