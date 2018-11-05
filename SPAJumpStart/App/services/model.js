@@ -11,6 +11,7 @@
 
   //#region Internal Methods
   function configureMetadataStore(metadataStore) {
+    // ZEHONG: must be "Session", "Person" & "TimeSlot". Using "session", "person" & "timeslot" doesn't work
     metadataStore.registerEntityTypeCtor('Session', null, sessionInitializer);
     metadataStore.registerEntityTypeCtor('Person', null, personInitializer);
     metadataStore.registerEntityTypeCtor('TimeSlot', null, timeSlotInitializer);

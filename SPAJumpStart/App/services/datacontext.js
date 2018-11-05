@@ -1,10 +1,10 @@
 ﻿define(['durandal/system', 'services/model', 'config', 'services/logger'],
   function (system, model, config, logger) {
     var EntityQuery = breeze.EntityQuery,
-        manager = configureBreezeManager();
+        manager = configureBreezeManager(); // ZEHONG: call configureBreezeManager() immediately
 
     var getSpeakers = function (speakersObservable) {
-      var query = EntityQuery.from('Speakers').orderBy('firstName, lastName'); // will cause 'Speakers'(case-insensitive) action of Breeze Controller(manager knows it)
+      var query = EntityQuery.from('Speakers').orderBy('firstName, lastName'); // ZEHONG: will cause 'Speakers'(case-insensitive) action of Breeze Controller(manager knows it)
       return manager.executeQuery(query)
       .then(querySucceeded)
       .fail(queryFailed);
