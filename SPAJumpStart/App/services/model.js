@@ -3,17 +3,31 @@
   var makeImageName = function (source) {
     return imageSettings.imageBasePath + (source || imageSettings.unknownPersonImageSource);
   };
-
+  var orderBy = {
+    speaker: 'firstName, lastName',
+    session: 'timeSlotId, level, speaker.firstName'
+  };
+  var entityNames = {
+    speaker: 'Person',
+    session: 'Session',
+    room: 'Room',
+    track: 'Track',
+    timeSlot: 'TimeSlot'
+  };
   var model = {
     configureMetadataStore: configureMetadataStore,
+    entityNames: entityNames,
+    orderBy: orderBy
   };
   return model;
 
   //#region Internal Methods
   function configureMetadataStore(metadataStore) {
     // ZEHONG: must be "Session", "Person" & "TimeSlot". Using "session", "person" & "timeslot" doesn't work
-    metadataStore.registerEntityTypeCtor('Session', null, sessionInitializer);
-    metadataStore.registerEntityTypeCtor('Person', null, personInitializer);
+    // ZEHONG: Breeze will track any properties in the Ctor function, but will not track properties created in the initializer
+    // ZEHONG: isPartial property must be defined here, or the application will not work(cannot find isPartial when create entity during mapDtosToEntities method)
+    metadataStore.registerEntityTypeCtor('Session', function () { this.isPartial = false; }, sessionInitializer);
+    metadataStore.registerEntityTypeCtor('Person', function () { this.isPartial = false; }, personInitializer);
     metadataStore.registerEntityTypeCtor('TimeSlot', null, timeSlotInitializer);
   }
 

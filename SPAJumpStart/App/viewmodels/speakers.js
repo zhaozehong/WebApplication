@@ -15,6 +15,6 @@
     return refresh();
   }
   function refresh() {
-    return datacontext.getSpeakers(speakers);
+    return datacontext.getSpeakerPartials(speakers);
   }
 });

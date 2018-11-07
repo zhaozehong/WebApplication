@@ -15,6 +15,6 @@
     return refresh();
   }
   function refresh() {
-    return datacontext.getSessions(sessions);
+    return datacontext.getSessionPartials(sessions);
   }
 });
