@@ -10,13 +10,23 @@
     var orderBy = model.orderBy;
     var entityNames = model.entityNames;
 
-    var getSpeakerPartials = function (speakersObservable) {
+    var getSpeakerPartials = function (speakersObservable, forceRemote) {
+      if (!forceRemote) {
+        var p = getLocal('Persons', orderBy.speaker);
+        if (p.length > 0) {
+          if (speakersObservable) {
+            speakersObservable(p);
+          }
+          return Q.resolve(); // ZEHONG?: why doesn't Q need to be defined in function define?
+        }
+      }
+
       // ZEHONG: will cause 'Speakers'(case-insensitive) action of Breeze Controller(manager knows it)
       // "Speakers" is the name of WebApi method
       var query = EntityQuery.from('Speakers')
         .select('id, firstName, lastName, imageSource')
         .orderBy(orderBy.speaker);
-      return manager.executeQuery(query)
+      return manager.executeQuery(query) // ZEHONG: executeQuery will cause communication with remote server
         .then(querySucceeded)
         .fail(queryFailed);
 
@@ -31,13 +41,24 @@
         log('Retireved [Speakers] from remote data source', data, true);
       }
     };
-    var getSessionPartials = function (sessionsObservable) {
+    var getSessionPartials = function (sessionsObservable, forceRemote) {
+      if (!forceRemote) {
+        var p = getLocal('Sessions', orderBy.session);
+        if (p.length > 3) {
+          // Edge case
+          // We need this check because we may have 1 entity already.
+          // If we start on a specific person, this may happen. So we check
+          sessionsObservable(p);
+          return Q.resolve();
+        }
+      }
+
       var query = EntityQuery.from('Sessions')
         // ZEHONG?: why must it call partialMapper.mapDtosToEntities() when .select() is applied?
         // I see both .from('Sessions') & .select(...) return EntiryQuery object.
         .select('id, title, code, speakerId, trackId, timeSlotId, roomId, level, tags')
         .orderBy(orderBy.session); // BreezeController.Sessions()
-      return manager.executeQuery(query)
+      return manager.executeQuery(query) // ZEHONG: executeQuery will cause communication with remote server
         .then(querySucceeded)
         .fail(queryFailed);
 
@@ -63,6 +84,10 @@
     return datacontext;
 
     // #region Internal methods
+    function getLocal(resource, ordering) {
+      var query = EntityQuery.from(resource).orderBy(ordering);
+      return manager.executeQueryLocally(query);
+    }
     function queryFailed(error) {
       var msg = 'Error getting data. ' + error.message;
       logger.log(msg, error, system.getModuleId(datacontext), true);

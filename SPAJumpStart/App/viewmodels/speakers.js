@@ -1,6 +1,5 @@
 ﻿define(['services/datacontext'], function (datacontext) {
   var speakers = ko.observableArray();
-  var initialized = false;
   var vm = {
     activate: activate,
     speakers: speakers,
@@ -10,11 +9,10 @@
   return vm;
 
   function activate() {
-    if (initialized) { return; }
-    initialized = true;
-    return refresh();
+    // go get local data, if we have it
+    return datacontext.getSpeakerPartials(speakers);
   }
   function refresh() {
-    return datacontext.getSpeakerPartials(speakers);
+    return datacontext.getSpeakerPartials(speakers, true);
   }
 });

@@ -14,6 +14,7 @@ namespace CodeCamper.Controllers
   {
     readonly EFContextProvider<CodeCamperDbContext> _contextProvider = new EFContextProvider<CodeCamperDbContext>();
 
+    // ZEHONG?:  who calls this method???
     [HttpGet]
     public string Metadata()
     {
