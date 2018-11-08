@@ -19,7 +19,8 @@
   <div data-bind="with: session">
     <div class="titleblock">
       <label for="title">Title</label>
-      <address id="title" data-bind="text: title" />
+      <input id="title" data-bind="value: title"
+        placeholder="Session title"/>
     </div>
     <div class="details-left">
       <div>
@@ -36,27 +37,27 @@
       </div>
       <div>
         <label>Code</label>
-        <address data-bind="text: code" />
+        <input data-bind="value: code" placeholder="Code"/>
       </div>
+      
       <div>
         <label>Level</label>
-        <address data-bind="text: level" />
+        <input data-bind="value: level" placeholder="Level"/>
+      </div>
+      <div>
+        <label>Tags</label>
+        <input data-bind="value: tagsFormatted" placeholder="Tags"/>
       </div>
       <div data-bind="with: speaker">
         <img data-bind="attr: { src: imageName }" class="img-polaroid" />
         <address data-bind="text: fullName"></address>
       </div>
     </div>
-    <div class="titleblock">
-      <div>
-        <label>Tags</label>
-        <address data-bind="text: tagsFormatted" />
-      </div>
-  </div>
   <div class="details-right">
       <div>
         <label>Description</label>
-        <address data-bind="text: description" />
+        <textarea data-bind="value: description"
+          placeholder="Enter description"/>
       </div>
   </div>
 </section>
