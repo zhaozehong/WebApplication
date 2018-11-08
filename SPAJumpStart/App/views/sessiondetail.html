@@ -25,15 +25,21 @@
     <div class="details-left">
       <div>
         <label>Track</label>
-        <address data-bind="text: track().name" />
+        <select data-bind="options: $parent.tracks,
+                optionsText: 'name',
+                value: track"/>
       </div>
       <div>
         <label>Time slot</label>
-        <address data-bind="text: timeSlot().name" />
+        <select data-bind="options: $parent.timeSlots,
+                optionsText: 'start',
+                value: timeSlot"/>
       </div>
       <div>
         <label>Room</label>
-        <address data-bind="text: room().name" />
+        <select data-bind="options: $parent.rooms,
+                optionsText: 'name',
+                value: room"/>
       </div>
       <div>
         <label>Code</label>
