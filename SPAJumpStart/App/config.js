@@ -24,10 +24,10 @@
     //caption: 'Speakers',
     //settings: { caption: '<i class="icon-user"></i> Speakers' }
     //}, {
-    //url: 'sessiondetail/:id',
-    //moduleId: 'viewmodels/sessiondetail',
-    //name: 'Edit Session',
-    //visible: false
+    url: 'sessiondetail/:id',
+    moduleId: 'viewmodels/sessiondetail',
+    name: 'Edit Session',
+    visible: false
     //caption: 'Edit Session',
     //}, {
     //    url: 'sessionadd',

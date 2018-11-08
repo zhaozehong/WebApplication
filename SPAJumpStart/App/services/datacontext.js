@@ -72,6 +72,33 @@
         log('Retireved [Session] from remote data source', data, true);
       }
     };
+    var getSessionById = function (sessionId, sessionObservable) {
+      // 1st:
+      // fetchEntityByKey will look in local cache first (because the 3rd para is true)
+      // if not there then it will go remote
+      return manager.fetchEntityByKey(entityNames.session, sessionId, true)
+        .then(fetchSucceeded)
+        .fail(queryFailed);
+
+      // 2nd:
+      // refresh the entity from remote store (if needed)
+      function fetchSucceeded(data) {
+        var s = data.entity;
+        return s.isPartial() ? refreshSession(s) : sessionObservable(s);
+      }
+      function refreshSession(session) {
+        return EntityQuery.fromEntities(session)
+          .using(manager).execute()
+          .then(querySucceeded)
+          .fail(queryFailed);
+      }
+      function querySucceeded(data) {
+        var s = data.results[0];
+        s.isPartial(false);
+        log('Retireved [Session] from remote data source', s, true);
+        return sessionObservable(s);
+      }
+    };
     var primeData = function () {
       return Q.all([getLookups(), getSpeakerPartials(null, true)]);
     }
@@ -79,6 +106,7 @@
     var datacontext = {
       getSpeakerPartials: getSpeakerPartials,
       getSessionPartials: getSessionPartials,
+      getSessionById: getSessionById,
       primeData: primeData
     };
     return datacontext;
