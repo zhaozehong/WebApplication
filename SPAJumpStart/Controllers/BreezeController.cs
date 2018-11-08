@@ -24,6 +24,7 @@ namespace CodeCamper.Controllers
     [HttpPost]
     public SaveResult SaveChanges(JObject saveBundle)
     {
+      // this is all we need to do on the server side
       return _contextProvider.SaveChanges(saveBundle);
     }
 

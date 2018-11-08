@@ -99,6 +99,25 @@
         return sessionObservable(s);
       }
     };
+    var cancelChanges = function () {
+      manager.rejectChanges();
+      log('Canceled change', null, true);
+    };
+    var saveChanges = function () {
+      return manager.saveChanges()
+      .then(saveSucceeded)
+      .fail(saveFailed);
+
+      function saveSucceeded(saveResult) {
+        log('Saved data successfully', saveResult, true);
+      };
+      function saveFailed(error) {
+        var msg = 'Save failed: ' + error.message;
+        logError(msg, error);
+        error.message = msg;
+        throw error;
+      };
+    };
     var primeData = function () {
       var promise = Q.all([
         getLookups(),
@@ -115,11 +134,19 @@
         log('Primed data', datacontext.lookups);
       }
     }
+    var hasChanges = ko.observable(false);
+
+    manager.hasChangesChanged.subscribe(function (eventArgs) {
+      hasChanges(eventArgs.hasChanges);
+    });
 
     var datacontext = {
       getSpeakerPartials: getSpeakerPartials,
       getSessionPartials: getSessionPartials,
       getSessionById: getSessionById,
+      hasChanges: hasChanges,
+      cancelChanges: cancelChanges,
+      saveChanges: saveChanges,
       primeData: primeData
     };
     return datacontext;
@@ -147,6 +174,9 @@
     }
     function log(msg, data, showToast) {
       logger.log(msg, data, system.getModuleId(datacontext), showToast);
+    }
+    function logError(msg, data, showToast) {
+      logger.logError(msg, data, system.getModuleId(datacontext), showToast);
     }
     //#endregion
   });
