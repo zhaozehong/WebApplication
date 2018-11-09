@@ -1,8 +1,5 @@
 ﻿define(['config'], function (config) {
   var imageSettings = config.imageSettings;
-  var makeImageName = function (source) {
-    return imageSettings.imageBasePath + (source || imageSettings.unknownPersonImageSource);
-  };
   var orderBy = {
     speaker: 'firstName, lastName',
     session: 'timeSlotId, level, speaker.firstName'
@@ -14,6 +11,7 @@
     track: 'Track',
     timeSlot: 'TimeSlot'
   };
+
   var model = {
     configureMetadataStore: configureMetadataStore,
     entityNames: entityNames,
@@ -42,7 +40,7 @@
       return person.firstName() + ' ' + person.lastName();
     });
     person.imageName = ko.computed(function () {
-      return makeImageName(person.imageSource());
+      return imageSettings.imageBasePath + (person.imageSource() || imageSettings.unknownPersonImageSource);
     });
   };
   function timeSlotInitializer(timeSlot) {

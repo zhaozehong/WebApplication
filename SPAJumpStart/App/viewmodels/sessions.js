@@ -19,7 +19,7 @@
       bindEventToList(view, '.session-brief', gotoDetails);
     };
     var bindEventToList = function (rootSelector, selector, callback, eventName) {
-      var eName = eventName || 'click';
+      var eName = eventName || 'dblclick';
       $(rootSelector).on(eName, selector, function () {
         var session = ko.dataFor(this);
         callback(session);

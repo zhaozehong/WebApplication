@@ -23,7 +23,7 @@
     visible: true,
     //caption: 'Speakers',
     //settings: { caption: '<i class="icon-user"></i> Speakers' }
-    //}, {
+  }, {
     url: 'sessiondetail/:id',
     moduleId: 'viewmodels/sessiondetail',
     name: 'Edit Session',
