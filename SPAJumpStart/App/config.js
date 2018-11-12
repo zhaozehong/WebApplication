@@ -35,7 +35,7 @@
     name: 'Add Session',
     visible: false,
     caption: 'Add Session',
-    settings: { admin: true }
+    settings: { admin: true, caption: '<i class="icon-plus"></i> Add Session' }
   }];
 
   var startModule = 'sessions';

@@ -126,21 +126,25 @@
 
       function success() {
         datacontext.lookups = {
-          rooms: getLocal('Rooms', 'name'),
-          tracks: getLocal('Tracks', 'name'),
-          timeslots: getLocal('TimeSlots', 'start'),
-          speakers: getLocal('Persons', orderBy.speaker)
+          rooms: getLocal('Rooms', 'name', true),
+          tracks: getLocal('Tracks', 'name', true),
+          timeslots: getLocal('TimeSlots', 'start', true),
+          speakers: getLocal('Persons', orderBy.speaker, true)
         };
         log('Primed data', datacontext.lookups);
       }
     }
     var hasChanges = ko.observable(false);
 
+    var createSession = function () {
+      return manager.createEntity(entityNames.session);
+    };
     manager.hasChangesChanged.subscribe(function (eventArgs) {
       hasChanges(eventArgs.hasChanges);
     });
 
     var datacontext = {
+      createSession: createSession,
       getSpeakerPartials: getSpeakerPartials,
       getSessionPartials: getSessionPartials,
       getSessionById: getSessionById,
@@ -152,8 +156,11 @@
     return datacontext;
 
     // #region Internal methods
-    function getLocal(resource, ordering) {
+    function getLocal(resource, ordering, includeNullos) {
       var query = EntityQuery.from(resource).orderBy(ordering);
+      if (!includeNullos) {
+        query = query.where('id', '!=', 0);
+      }
       return manager.executeQueryLocally(query);
     }
     function queryFailed(error) {
@@ -169,8 +176,12 @@
     }
     function getLookups() {
       return EntityQuery.from('Lookups') // cause BreezeController.Lookups()
-      .using(manager).execute()
-      .fail(queryFailed);
+        .using(manager).execute()
+        .then(processLookups)
+        .fail(queryFailed);
+    }
+    function processLookups() {
+      model.createNullos(manager);
     }
     function log(msg, data, showToast) {
       logger.log(msg, data, system.getModuleId(datacontext), showToast);
