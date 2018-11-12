@@ -29,13 +29,13 @@
     name: 'Edit Session',
     visible: false
     //caption: 'Edit Session',
-    //}, {
-    //    url: 'sessionadd',
-    //    moduleId: 'viewmodels/sessionadd',
-    //    name: 'Add Session',
-    //    visible: false,
-    //caption: 'Add Session',
-    //settings: { admin: true, caption: '<i class="icon-plus"></i> Add Session' }
+  }, {
+    url: 'sessionadd',
+    moduleId: 'viewmodels/sessionadd',
+    name: 'Add Session',
+    visible: false,
+    caption: 'Add Session',
+    settings: { admin: true }
   }];
 
   var startModule = 'sessions';

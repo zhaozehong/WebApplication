@@ -4,7 +4,7 @@
       <span class="title">Code Camper</span>
       <span class="jump-start-title">[JumpStart] 01-Durandal - Nav</span>
     </a>
-    <div data-bind="css: {active : router.isNavgating}"
+    <div data-bind="css: { active: router.isNavgating }"
       class="pull-right loader">
       <i class="icon-spinner icon-2x icon-spin"></i>
     </div>
@@ -16,6 +16,16 @@
                     css: { active: isActive },
                     html: caption"
         class="btn btn-info"></a>
+    </div>
+    <div class="btn-group">
+      <a class="btn btn-info dropdown-toggle"
+        data-toggle="dropdown"><i class="icon-user"></i>
+        <span class="text">Admin</span><span class="caret"></span></a>
+      <ul class="dropdown-menu pull-right">
+        <!--ko foreach: adminRoutes-->
+        <li><a data-bind="attr: { href: hash }, html: caption"></a></li>
+        <!-- /ko -->
+      </ul>
     </div>
   </div>
 </nav>
