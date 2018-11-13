@@ -5,6 +5,9 @@
       // go get local data, if we have it
       return datacontext.getSessionPartials(sessions);
     }
+    var deactivate = function () {
+      sessions([]); // clear cached sessions
+    }
     var refresh = function () {
       return datacontext.getSessionPartials(sessions, true);
     }
@@ -29,6 +32,7 @@
 
     var vm = {
       activate: activate,
+      deactivate: deactivate,
       refresh: refresh,
       sessions: sessions,
       title: 'Sessions',

@@ -137,7 +137,7 @@
     var hasChanges = ko.observable(false);
 
     var createSession = function () {
-      return manager.createEntity(entityNames.session);
+      return manager.createEntity(entityNames.session); // create a new entity
     };
     manager.hasChangesChanged.subscribe(function (eventArgs) {
       hasChanges(eventArgs.hasChanges);

@@ -23,7 +23,7 @@ define(function () {
 
     function dtoToEntityMapper(dto) {
       var keyValue = dto[keyName];
-      var entity = manager.getEntityByKey(entityName, keyValue);
+      var entity = manager.getEntityByKey(entityName, keyValue); // ZEHONG?: don't know why it can find the correct key since I didn't tell which property is the KEY.
       if (!entity) {
         // We don't have it, so create it as a partial
         extendWith = $.extend({}, extendWith || defaultExtension);
