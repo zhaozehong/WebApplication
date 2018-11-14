@@ -112,7 +112,7 @@
         log('Saved data successfully', saveResult, true);
       };
       function saveFailed(error) {
-        var msg = 'Save failed: ' + error.message;
+        var msg = 'Save failed: ' + getErrorMessages(error);
         logError(msg, error);
         error.message = msg;
         throw error;
@@ -163,6 +163,27 @@
       }
       return manager.executeQueryLocally(query);
     }
+    function getErrorMessages(error) {
+      var msg = error.message;
+      if (msg.match(/validation error/i)) {
+        return getValidationMessages(error);
+      }
+      return msg;
+    }
+    function getValidationMessages(error) {
+      try {
+        // foreach entity with a validation error
+        return error.entitiesWithErrors.map(function (entity) {
+          // get each validation error
+          return entity.entityAspect.getValidationErrors().map(function (valError) {
+            // return the error message from the validation
+            return valError.errorMessage;
+          }).join('; <br/>');
+        }).join('; <br/>');
+      }
+      catch (e) { }
+      return 'validation error';
+    }
     function queryFailed(error) {
       var msg = 'Error getting data. ' + error.message;
       logger.log(msg, error, system.getModuleId(datacontext), true);
@@ -186,8 +207,8 @@
     function log(msg, data, showToast) {
       logger.log(msg, data, system.getModuleId(datacontext), showToast);
     }
-    function logError(msg, data, showToast) {
-      logger.logError(msg, data, system.getModuleId(datacontext), showToast);
+    function logError(msg, data) {
+      logger.logError(msg, data, system.getModuleId(datacontext), true);
     }
     //#endregion
   });
